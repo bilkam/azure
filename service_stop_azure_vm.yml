@@ -3,7 +3,7 @@
   connection: local
   gather_facts: no
   vars_files:
-    - "vars/infra_anavid_azure.yml"  
+    - "vars/infra_azure.yml"  
   
   pre_tasks:
    - block:
