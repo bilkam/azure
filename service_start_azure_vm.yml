@@ -1,0 +1,26 @@
+---
+- hosts: all
+  connection: local
+  gather_facts: no
+  vars_files:
+    - "vars/infra_anavid_azure.yml" 
+    
+  pre_tasks:
+   - block:
+     - fail:
+        msg: "Too many hosts"
+       when: ansible_play_hosts_all | length > 1       
+     run_once: true 
+     
+  tasks:
+  - name: start a virtual machine on azure
+    azure_rm_virtualmachine:
+      subscription_id: "{{ subscription_id }}"
+      tenant: "{{ tenant }}"
+      client_id: "{{ client_id }}"
+      secret: "{{ secret }}"
+      resource_group: "{{resource_group}}"
+      name: "{{inventory_hostname}}"
+      started: yes
+    delegate_to: localhost
+    register: vm_info 
